@@ -18,6 +18,7 @@ import { RiAddLine, RiPencilLine } from "react-icons/ri";
 import { Sidebar } from "../../components/SideBar";
 import { Header } from "../../components/Header";
 import { Pagination } from "../../components/Pagination";
+import Link from "next/link";
 
 export default function UserList() {
   const isWideVersion = useBreakpointValue({
@@ -31,20 +32,22 @@ export default function UserList() {
       <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
         <Sidebar />
 
-        <Box flex="1" borderRadius={8} bg="gray.800" p={["4", "6","8"]} mr="2">
+        <Box flex="1" borderRadius={8} bg="gray.800" p={["4", "6", "8"]} mr="2">
           <Flex mb="8" justify="space-between" align="center">
             <Heading size="lg" fontWeight="normal">
               Usuários
             </Heading>
-            <Button
-              as="a"
-              size="sm"
-              fontSize="sm"
-              colorScheme="pink"
-              leftIcon={<Icon as={RiAddLine} fontSize="20" />}
-            >
-              Criar novo
-            </Button>
+            <Link  href="/users/create" passHref>
+              <Button
+                as="a"
+                size="sm"
+                fontSize="sm"
+                colorScheme="pink"
+                leftIcon={<Icon as={RiAddLine} fontSize="20" />}
+              >
+                Criar novo
+              </Button>
+            </Link>
           </Flex>
 
           <Table colorScheme="whiteAlpha">
@@ -64,7 +67,7 @@ export default function UserList() {
                   <Checkbox colorScheme="pink" />
                 </Td>
                 <Td>
-                  <Box >
+                  <Box>
                     <Text fontWeight="bold">José Romary Brandão</Text>
                     <Text fontSize="sm" color="gray.300">
                       joseromarybrandao@gmail.com
