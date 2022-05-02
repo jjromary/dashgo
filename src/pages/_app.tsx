@@ -1,11 +1,12 @@
 import { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
-import { ReactQueryDevtools } from 'react-query/devtools'
+import { ReactQueryDevtools } from "react-query/devtools";
 import { theme } from "../styles/theme";
 import { SidebarDrawerProvider } from "../Context/SidebarDrawerContext";
 import { makeServer } from "../services/mirage";
 import { QueryClient, QueryClientProvider } from "react-query";
 
+//verificando se o ambiente que está rodando é o ambiente de desenvolvimento
 if (process.env.NODE_ENV === "development") {
   makeServer();
 }
