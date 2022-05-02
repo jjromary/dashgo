@@ -1,32 +1,51 @@
-import { useQuery } from "react-query";
+import { useQuery, UseQueryOptions, UseQueryResult } from "react-query";
+import { Header } from "../../components/Header";
 import { api } from "../api";
 
 type User = {
-    id: string;
-    name: string;
-    email: string;
-    createdAt: string;
-}
+  id: string;
+  name: string;
+  email: string;
+  createdAt: string;
+};
 
-export async function getUsers(): Promise<User[]> {
-    const { data } = await api.get("users");
+type GetUsersResponse = {
+  totalCount: number;
+  users: User[];
+};
 
-    const users = data.users.map((user) => {
-      return {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        createdAt: new Date(user.createdAt).toLocaleDateString("pt-BR", {
-          day: "2-digit",
-          month: "long",
-          year: "numeric",
-        }),
-      };
-    });
+export async function getUsers(page: number): Promise<GetUsersResponse> {
+  const { data, headers } = await api.get("users", {
+    params: {
+      page,
+    },
+  });
 
-    return users;
+  const totalCount = Number(headers["x-total-count"]);
+
+  const users = data.users.map((user) => {
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      createdAt: new Date(user.createdAt).toLocaleDateString("pt-BR", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      }),
+    };
+  });
+
+  return {
+    users,
+    totalCount,
   };
-
-export function useUsers() {
-  return useQuery("users", getUsers)
 }
+
+export function useUsers(page: number, options?: UseQueryOptions) {
+  // usando arrow function para que a função seja usada somente quando a query for acionada e nãõ quando o código por criado.
+  return useQuery(["users", page], () => getUsers(page), {
+    ...options,
+  }) as UseQueryResult<GetUsersResponse, unknown>;
+}
+
