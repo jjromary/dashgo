@@ -21,6 +21,8 @@ import { Header } from "../../components/Header";
 import { Pagination } from "../../components/Pagination";
 import Link from "next/link";
 import { useUsers } from "../../services/hooks/useUsers";
+import { useQuery } from "react-query";
+import { api } from "../../services/api";
 
 export default function UserList() {
   const isWideVersion = useBreakpointValue({
@@ -40,8 +42,9 @@ export default function UserList() {
           <Flex mb="8" justify="space-between" align="center">
             <Heading size="lg" fontWeight="normal">
               Usuários
-
-              {! isLoading && isFetching && <Spinner size="sm" color="gray.500" ml="4"/>}
+              {!isLoading && isFetching && (
+                <Spinner size="sm" color="gray.500" ml="4" />
+              )}
             </Heading>
             <Link href="/users/create" passHref>
               <Button
@@ -116,7 +119,11 @@ export default function UserList() {
                 </Tbody>
               </Table>
 
-              <Pagination />
+              <Pagination
+                totalCountOfRegister={200}
+                currentPage={5}
+                onPageChange={() => {}}
+              />
             </>
           )}
         </Box>
